@@ -1,101 +1,51 @@
 #include <iostream>
-#include <string>
+#include <cstdlib>
 #include <stdlib.h>
+#include <time.h>
 
+/* Punto 1 del libro
+- dare la scelta di quanti bits trasmettere (da 8 a 32)
+- generare una sequenza random di bits da trasmettere
+- stampare i dati originali e il polinomio M(x) */
 using namespace std;
-int main(int argc, char const *argv[])
-{
-    int numBit;
-    string Mx, Gx, Dx, CRC, codeword, newCodeword;
-    bool thereIsErr;
+int main() {
 
-    getNumBit(numBit);
+int numerobits,c;
+int bit[numerobits];
+cout<<"inserisci quanti bits da trasmettere da (8 a 32): ";
+cin>>numerobits;
+cout<<"numero di bits: "<<numerobits<<endl;
 
-    Mx = generateRandomBitString(numBit);
-
-    printCurrentData(numBit, Mx);
-
-    getGx(Gx);
-
-    Dx = generateDx(Mx, Gx.size());
-
-    printDx(Dx);
-
-    CRC = generateCRC(Dx, Gx);
-
-    printCRC(CRC);
-    
-    codeword = generateCodeword(Dx, CRC);
-
-    printCodeword(codeword);
-
-    newCodeword = casualErr(codeword);
-
-    printErr(newCodeword, codeword);
-
-    thereIsErr = checkCodeword(newCodeword, Gx);
-
-    printErrSearch(thereIsErr);
-
-    system("pause");
-
-    return 0;
+for(int i=0; i<numerobits;i++)
+{ int c=rand() %2;
+cout<<c;
 }
 
-/**
- * It asks the user to input a number between 8 and 32, and if the number is not between 8 and 32, it
- * asks the user to input a number between 8 and 32 again
- * 
- * @param numBit number of bits to be transmitted
- */
-void getNumBit(int& numBit) {
-    do {
-        cout << "Inserire quantita' di bit da trasmettere (da 8 a 32): ";
-        cin >> numBit;
-        cout << endl;
-        if(numBit < 8 || numBit > 32) {
-            cout << "La quantita' di bit deve essere compresa tra 8 e 32" << endl << endl;
-        }
-    } while(numBit < 8 || numBit > 32);
+
+int m=4;
+int gx[m];
+gx[0]=1;
+gx[1]=1;
+gx[2]=0;
+gx[3]=1;
+
+cout<<"\n\nmx: ";
+for(int i=m; i>0; i--){
+if (gx[i-1]==1){
+cout<<"x^"<<i-1<<"+";
+}
 }
 
-/**
- * It generates a random bit string of a given length
- * 
- * @param length the length of the bit string
- * 
- * @return A string of random bits.
- */
-string generateRandomBitString(int length) {
-    /* La stringa di bit con una lunghezza determinata deve iniziare per forza con 1 
-        altrimenti avrebbe una lunghezza inferiore a quella richiesta */
-    string bitString = "1";
-
-    for(int i = 1; i < length; i++) {
-        bitString += to_string(randomNum(1));
-    }
-
-    return bitString;
+for(int i=0, h=m; i<numerobits; i++, h--){
+if(h==0){
+h=4;
+}
+if (bit[i] == gx[h]){
+bit[i] = 0;
+}
 }
 
-/**
- * It returns a random number between 0 and the number passed in
- * 
- * @param max The maximum number that can be generated.
- * 
- * @return The remainder of the random number divided by the max number plus 1.
- */
-int randomNum(int max) {
-    return rand() % (max + 1);
-}
 
-/**
- * It prints the length of the polynomial and the polynomial itself
- * 
- * @param length the length of the string Mx
- * @param Mx the polynomial
- */
-void printCurrentData(int length, string Mx) {
-    cout << "Lunghezza M(x): " << length << endl;
-    cout << "M(x): " << Mx << endl << endl;
+
+
 }
