@@ -63,12 +63,6 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-/**
- * It asks the user to input a number between 8 and 32, and if the number is not between 8 and 32, it
- * asks the user to input a number between 8 and 32 again
- * 
- * @param numBit number of bits to be transmitted
- */
 void getNumBit(int& numBit) {
     do {
         cout << "Inserire quantita' di bit da trasmettere (da 8 a 32): ";
@@ -77,16 +71,8 @@ void getNumBit(int& numBit) {
         if(numBit < 8 || numBit > 32) {
             cout << "La quantita' di bit deve essere compresa tra 8 e 32" << endl << endl;
         }
-    } while(numBit < 8 || numBit > 32);
+    } while(numBit < 8 || numBit >
 }
-
-/**
- * It generates a random bit string of a given length
- * 
- * @param length the length of the bit string
- * 
- * @return A string of random bits.
- */
 string generateRandomBitString(int length) {
 
 /* La stringa di bit con una lunghezza determinata deve iniziare per forza con 1 
@@ -100,23 +86,30 @@ string generateRandomBitString(int length) {
     return bitString;
 }
 
-/**
- * It returns a random number between 0 and the number passed in
- * 
- * @param max The maximum number that can be generated.
- * 
- * @return The remainder of the random number divided by the max number plus 1.
- */
 int randomNum(int max) {
     return rand() % (max + 1);
 }
 
-/**
- * It prints the length of the polynomial and the polynomial itself
- * 
- * @param length the length of the string Mx
- * @param Mx the polynomial
- */
 void printCurrentData(int length, string Mx) {
     cout << "Lunghezza M(x): " << length << endl;
-    cout << "M(x): " << Mx 
+    cout << "M(x): " << Mx << endl << endl;
+}
+
+void getGx(string& Gx) {
+    int choice;
+    const int MIN = 1, MAX = 2;
+    const string possibleChoices[MAX] = { "1011", "10011" };
+
+    cout << "Scegliere polinomio divisore" << endl << endl;
+    for(int i = 0; i < MAX; i++) {
+        cout << i + 1 << ". " << possibleChoices[i] << endl;
+    }
+
+    do {
+        cout << "Inserire numero polinomio scelto: ";
+        cin >> choice;
+        cout << endl;
+        if(choice < MIN || choice > MAX) {
+            cout << "Inserire un numero valido" << endl << endl;
+        }
+
