@@ -21,78 +21,41 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+ 
+include <iostream>
 
 using namespace std;
 
-int main(int argc, char const *argv[])
+string genera_sequenza_bits_da_trasmettere(int nr_bits)
 {
-    int numBit;
-    string Mx, Gx, Dx, CRC, codeword, newCodeword;
-    bool thereIsErr;
-
-    getNumBit(numBit);
-
-    Mx = generateRandomBitString(numBit);
-
-    printCurrentData(numBit, Mx);
-
-    getGx(Gx);
-
-    Dx = generateDx(Mx, Gx.size());
-
-    printDx(Dx);
-
-    CRC = generateCRC(Dx, Gx);
-
-    printCRC(CRC);
-    
-    codeword = generateCodeword(Dx, CRC);
-
-    printCodeword(codeword);
-
-    newCodeword = casualErr(codeword);
-
-    printErr(newCodeword, codeword);
-
-    thereIsErr = checkCodeword(newCodeword, Gx);
-
-    printErrSearch(thereIsErr);
-
-    system("pause");
-
-    return 0;
-}
-
-void getNumBit(int& numBit) {
-    do {
-        cout << "Inserire quantita' di bit da trasmettere (da 8 a 32): ";
-        cin >> numBit;
-        cout << endl;
-        if(numBit < 8 || numBit > 32) {
-            cout << "La quantita' di bit deve essere compresa tra 8 e 32" << endl << endl;
-        }
-    } while(numBit < 8 || numBit >
-}
-string generateRandomBitString(int length) {
-
-/* La stringa di bit con una lunghezza determinata deve iniziare per forza con 1 
-        altrimenti avrebbe una lunghezza inferiore a quella richiesta */
-    string bitString = "1";
-
-    for(int i = 1; i < length; i++) {
-        bitString += to_string(randomNum(1));
+    string bits(""); // classe string
+    int random_bit_value = 0;
+    srand(time(NULL));
+    for (int i = 0; i < nr_bits; i++)
+    {
+        random_bit_value = rand() % 2;
+        bits.append(to_string(random_bit_value));
     }
 
-    return bitString;
+    return bits;
 }
-
-int randomNum(int max) {
-    return rand() % (max + 1);
-}
-
-void printCurrentData(int length, string Mx) {
-    cout << "Lunghezza M(x): " << length << endl;
-    cout << "M(x): " << Mx << endl << endl;
+int main()
+{
+    int nr_bits_da_trasmettere;
+    string bit_out;
+    char ok='N';
+    
+    while(ok != 'S'){
+	cout<< "\nInserisci il numero di bits (8-32)\n";
+	cin>>nr_bits_da_trasmettere;
+	if (nr_bits_da_trasmettere>7 && nr_bits_da_trasmettere< 33)
+	        ok='S';
+	else
+	    cout<< "\ndeve esser compreso fra 8 e 32";
+	}
+    bit_out=genera_sequenza_bits_da_trasmettere(nr_bits_da_trasmettere);
+    cout<< "\n--> " << bit_out;
+    return 0;
 }
 
 void getGx(string& Gx) {
@@ -112,4 +75,23 @@ void getGx(string& Gx) {
         if(choice < MIN || choice > MAX) {
             cout << "Inserire un numero valido" << endl << endl;
         }
+    } while (choice < MIN || choice > MAX);
+
+    Gx = possibleChoices[choice - 1];
+}
+
+string generateDx(string Mx, int GxLength) {
+    string Dx = Mx;
+
+    for(int i = 0; i < GxLength - 1; i++) {
+        Dx += "0";
+    }
+
+    return Dx;
+}
+
+void printDx(string Dx) {
+    cout << "D(x): " << Dx << endl << endl;
+}
+
 
