@@ -14,7 +14,7 @@ int main() {
 	}
 	else
 	sleep(2);
-	printf("Sono ilprocesso padre con pid:%d, n\", getpid());
+	printf("Sono ilprocesso padre con pid:%d, \n", getpid());
 }
 
 
